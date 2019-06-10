@@ -1,8 +1,10 @@
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 import javax.swing.JButton;
@@ -10,26 +12,19 @@ import javax.swing.JFrame;
 
 
 
-public class Snake extends JButton{
+public class Snake {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public List<JButton> snake = new ArrayList<>();
-	public JButton snakeHead;
+	public List<Point> snake = new ArrayList<>();
 	
-	public Snake(JFrame mainFrame) {
-		snakeHead = new JButton("");
-		snakeHead.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		snakeHead.setBackground(Color.RED);
-		snakeHead.setForeground(Color.RED);
-		snakeHead.setBounds(100, 100, 20, 20);
-		snake.add(snakeHead);
+	public Point getSnakeHead() {
+		return snake.get(0);
+	}
+	
+	public Snake() {
 		
-		mainFrame.getContentPane().add(snakeHead);
 	}
 }
