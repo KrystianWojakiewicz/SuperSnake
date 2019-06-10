@@ -21,8 +21,8 @@ public class SnakeGUI implements ActionListener{
 	public static RenderPanel renderPanel;
 	
 	public static Snake snake = new Snake();
-	public static int scale = 10;
-	public Timer repaintTimer = new Timer(20, this);
+	private static int fps = 50;
+	public Timer repaintTimer = new Timer(fps, this);
 
 	public SnakeGUI() {
 	

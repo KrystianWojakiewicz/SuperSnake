@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -28,11 +29,19 @@ enum Direction {
 public class Game implements ActionListener {
 	
 	Direction direction = Direction.RIGHT;
+	
+	public static Fruit fruit;
+	public static Point fruitPos;
+	
 	public static Snake snake = new Snake();
-	public static int scale = 10;
-	public static int fps = 200;
 	public static SnakeGUI window;
+	
+	public final static int scale = 15;
+	public static int tick = 0;
+	
+	private static int fps = 100;
 	Timer moveTimer = new Timer(fps, this);
+	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -93,21 +102,36 @@ public class Game implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		tick++;
+		if(tick % 80 == 0) {
+			fruit = pickRandomFruit();
+			fruitPos = pickRandomPoint();
+		}
 		
 		System.out.println(direction);
 		move();
+		//checkCollision();
 	}
 
+	private Fruit pickRandomFruit() {
+		Random rnd = new Random();
+		return Fruit.values()[rnd.nextInt(Fruit.values().length)];
+	}
+	
+	private Point pickRandomPoint() {
+		Random rnd = new Random();
+		return new Point(rnd.nextInt(SnakeGUI.renderPanel.getWidth()/scale), rnd.nextInt(SnakeGUI.renderPanel.getHeight()/scale));
+	}
 	
 	private void move() {
 		
 		switch (direction) {
-		case UP: { moveUp(); break; }
-		case DOWN: { moveDown(); break; }
-		case LEFT: { moveLeft(); break; }
-		case RIGHT: { moveRight(); break; }
-		default: JOptionPane.showMessageDialog(new JFrame(), "Unknown Input");
-	}
+			case UP: { moveUp(); break; }
+			case DOWN: { moveDown(); break; }
+			case LEFT: { moveLeft(); break; }
+			case RIGHT: { moveRight(); break; }
+			default: break;
+		}
 	}
 
 
