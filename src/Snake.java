@@ -20,14 +20,14 @@ public class Snake extends JButton{
 	public JButton snakeHead;
 	
 	public Snake(JFrame mainFrame) {
-		snakeHead = new JButton("@");
+		snakeHead = new JButton("");
 		snakeHead.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		snakeHead.setBackground(Color.RED);
 		snakeHead.setForeground(Color.RED);
-		snakeHead.setBounds(100, 100, 24, 26);
+		snakeHead.setBounds(100, 100, 20, 20);
 		snake.add(snakeHead);
 		
 		mainFrame.getContentPane().add(snakeHead);
