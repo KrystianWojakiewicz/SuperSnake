@@ -26,7 +26,14 @@ public class RenderPanel extends JPanel{
 			g.fillRect(snakeElement.x * Game.scale, snakeElement.y * Game.scale, Game.scale, Game.scale);
 		}
 		
-		if(Game.fruit == null) return;
+		paintFruit(g);
+		
+		SnakeGUI.scoreBox.setText("Score: " + Game.score);
+	}
+
+	private void paintFruit(Graphics g) {
+		if(Game.fruit == null || Game.fruitPos == null) return;
+		
 		switch(Game.fruit) {
 			case APPLE: { g.setColor(appleColor); break; }
 			case PEAR: { g.setColor(pearColor); break; }

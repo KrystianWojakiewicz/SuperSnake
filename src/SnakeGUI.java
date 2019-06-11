@@ -6,7 +6,9 @@ import java.awt.Rectangle;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.Timer;
+
 
 
 
@@ -18,6 +20,7 @@ import java.awt.event.ActionEvent;
 public class SnakeGUI implements ActionListener{
 
 	public static JFrame frame;
+	public static JLabel scoreBox;
 	public static RenderPanel renderPanel;
 	
 	public static Snake snake = new Snake();
@@ -39,6 +42,13 @@ public class SnakeGUI implements ActionListener{
 		renderPanel.setBounds(0, 0, 500, 500);
 		frame.getContentPane().add(renderPanel);
 		renderPanel.setLayout(null);
+		
+		scoreBox = new JLabel();
+		scoreBox.setSize(90, 25);
+		scoreBox.setBounds(500 - scoreBox.getWidth(),  0, scoreBox.getWidth(), scoreBox.getHeight());
+		scoreBox.setText("Score: " + Game.score);
+		scoreBox.setOpaque(true);
+		renderPanel.add(scoreBox);
 		
 		repaintTimer.start();
 	}

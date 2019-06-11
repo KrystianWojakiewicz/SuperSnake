@@ -37,6 +37,7 @@ public class Game implements ActionListener {
 	public static SnakeGUI window;
 	
 	public final static int scale = 15;
+	public static int score = 0;
 	public static int tick = 0;
 	
 	private static int fps = 100;
@@ -103,14 +104,18 @@ public class Game implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		tick++;
-		if(tick % 80 == 0) {
+		if(tick % 50 == 0) {
 			fruit = pickRandomFruit();
 			fruitPos = pickRandomPoint();
 		}
 		
 		System.out.println(direction);
+		//checkDeath();
+		if(checkFruitColl()) {
+			score++;
+			fruitPos = null;
+		}
 		move();
-		//checkCollision();
 	}
 
 	private Fruit pickRandomFruit() {
@@ -134,7 +139,13 @@ public class Game implements ActionListener {
 		}
 	}
 
-
+	private boolean checkFruitColl() {
+		if(snake.getSnakeHead().equals(fruitPos)) {
+			return true;
+		}
+		return false;
+	}
+	
 	//Setup Action for Binding//
 	Action MoveUp = new AbstractAction(){
 				        
