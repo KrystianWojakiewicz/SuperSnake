@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Array;
 import java.util.Random;
 
 import javax.swing.AbstractAction;
@@ -72,7 +73,16 @@ public class Game implements ActionListener {
 		((JComponent) SnakeGUI.frame.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(rightArrow, "right");
 		((JComponent) SnakeGUI.frame.getContentPane()).getActionMap().put("right", MoveRight);
 		
-		snake.snake.add( new Point(SnakeGUI.renderPanel.getX(), SnakeGUI.renderPanel.getY()) );
+		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 20, SnakeGUI.renderPanel.getY() + 20) );
+		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 19, SnakeGUI.renderPanel.getY() + 20) );
+		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 18, SnakeGUI.renderPanel.getY() + 20) );
+		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 17, SnakeGUI.renderPanel.getY() + 20) );
+		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 17, SnakeGUI.renderPanel.getY() + 20) );
+		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 16, SnakeGUI.renderPanel.getY() + 20) );
+		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 15, SnakeGUI.renderPanel.getY() + 20) );
+		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 14, SnakeGUI.renderPanel.getY() + 20) );
+		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 13, SnakeGUI.renderPanel.getY() + 20) );
+		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 12, SnakeGUI.renderPanel.getY() + 20) );
 		
 		moveTimer.start();
 	}
@@ -81,25 +91,77 @@ public class Game implements ActionListener {
 	void moveUp() {
 		
 		Point currentHeadPos = snake.getSnakeHead();
-		snake.snake.set(0, new Point(currentHeadPos.x, currentHeadPos.y - 1));
+		Point[] temp = new Point[2];
+		
+		for(int i = 0; i < snake.snake.size(); i++) {
+			if(i == 0) {
+				temp[0] = currentHeadPos;
+				snake.snake.set(0, new Point(currentHeadPos.x, currentHeadPos.y - 1));
+				continue;
+			}
+			else {
+				temp[1] = snake.snake.get(i);
+				snake.snake.set(i, new Point(temp[0].x, temp[0].y));
+				temp[0] = temp[1];
+			}
+		}
 	}
 	
 	void moveDown() {
 		
 		Point currentHeadPos = snake.getSnakeHead();
-		snake.snake.set(0, new Point(currentHeadPos.x, currentHeadPos.y + 1));
+		Point[] temp = new Point[2];
+		
+		for(int i = 0; i < snake.snake.size(); i++) {
+			if(i == 0) {
+				temp[0] = currentHeadPos;
+				snake.snake.set(0, new Point(currentHeadPos.x, currentHeadPos.y + 1));
+				continue;
+			}
+			else {
+				temp[1] = snake.snake.get(i);
+				snake.snake.set(i, new Point(temp[0].x, temp[0].y));
+				temp[0] = temp[1];
+			}
+		}
 	}
 	
 	void moveLeft() {
 		
 		Point currentHeadPos = snake.getSnakeHead();
-		snake.snake.set(0, new Point(currentHeadPos.x - 1, currentHeadPos.y));
+		Point[] temp = new Point[2];
+		
+		for(int i = 0; i < snake.snake.size(); i++) {
+			if(i == 0) {
+				temp[0] = currentHeadPos;
+				snake.snake.set(0, new Point(currentHeadPos.x - 1, currentHeadPos.y));
+				continue;
+			}
+			else {
+				temp[1] = snake.snake.get(i);
+				snake.snake.set(i, new Point(temp[0].x, temp[0].y));
+				temp[0] = temp[1];
+			}
+		}
 	}
 	
 	void moveRight() {
 		
 		Point currentHeadPos = snake.getSnakeHead();
-		snake.snake.set(0, new Point(currentHeadPos.x + 1, currentHeadPos.y));
+		Point[] temp = new Point[2];
+		
+		for(int i = 0; i < snake.snake.size(); i++) {
+			if(i == 0) {
+				temp[0] = currentHeadPos;
+				snake.snake.set(0, new Point(currentHeadPos.x + 1, currentHeadPos.y));
+				continue;
+			}
+			else {
+				temp[1] = snake.snake.get(i);
+				snake.snake.set(i, new Point(temp[0].x, temp[0].y));
+				temp[0] = temp[1];
+			}	
+		}
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -114,8 +176,31 @@ public class Game implements ActionListener {
 		if(checkFruitColl()) {
 			score++;
 			fruitPos = null;
+			
+			addNewElement();
 		}
 		move();
+	}
+
+	private void addNewElement() {
+		Point nextLastElement = snake.snake.get(snake.snake.size() - 2);
+		Point lastElement = snake.snake.get(snake.snake.size() - 1);
+		Point newElement = null;
+		
+		if( nextLastElement.x < lastElement.x) {
+			newElement = new Point(lastElement.x + 1, lastElement.y);
+		}
+		else if(nextLastElement.x > lastElement.x) {
+			newElement = new Point(lastElement.x - 1, lastElement.y);
+		}
+		else if(nextLastElement.y < lastElement.y) {
+			newElement = new Point(lastElement.x, lastElement.y + 1);
+		}
+		else if(nextLastElement.y > lastElement.y) {
+			newElement = new Point(lastElement.x, lastElement.y - 1);
+		}
+		if(newElement != null)
+			snake.snake.add(newElement);
 	}
 
 	private Fruit pickRandomFruit() {
@@ -152,7 +237,8 @@ public class Game implements ActionListener {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e){
-			direction = Direction.UP;
+			if(direction !=Direction.DOWN)
+				direction = Direction.UP;
 		}
 	};
 				    
@@ -161,7 +247,8 @@ public class Game implements ActionListener {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e){
-			direction = Direction.DOWN;
+			if(direction !=Direction.UP)
+				direction = Direction.DOWN;
 		}
 	};
 		
@@ -170,7 +257,8 @@ public class Game implements ActionListener {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e){
-			direction = Direction.LEFT;
+			if(direction !=Direction.RIGHT)
+				direction = Direction.LEFT;
 		}
 	};
 		
@@ -179,7 +267,8 @@ public class Game implements ActionListener {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e){
-			direction = Direction.RIGHT;
+			if(direction !=Direction.LEFT)
+				direction = Direction.RIGHT;
 		}
 	};
 			

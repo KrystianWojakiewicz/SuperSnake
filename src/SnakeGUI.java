@@ -47,7 +47,7 @@ public class SnakeGUI implements ActionListener{
 		scoreBox.setSize(90, 25);
 		scoreBox.setBounds(500 - scoreBox.getWidth(),  0, scoreBox.getWidth(), scoreBox.getHeight());
 		scoreBox.setText("Score: " + Game.score);
-		scoreBox.setOpaque(true);
+		//scoreBox.setOpaque(true);
 		renderPanel.add(scoreBox);
 		
 		repaintTimer.start();
