@@ -25,7 +25,6 @@ public class Menu {
 	public static JFrame frame;
 	
 	public static SnakeGUI snakeGUI;
-	public static RenderPanel gameBoard;
 	public static HighScoreFrame highscore;
 	
 	

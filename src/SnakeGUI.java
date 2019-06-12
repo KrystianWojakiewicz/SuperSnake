@@ -23,7 +23,6 @@ public class SnakeGUI implements ActionListener{
 	public static JLabel scoreBox;
 	public static RenderPanel renderPanel;
 	
-	public static Snake snake = new Snake();
 	public static int fps = 10;
 	public Timer repaintTimer;
 
