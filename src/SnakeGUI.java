@@ -28,15 +28,18 @@ public class SnakeGUI implements ActionListener{
 	public Timer repaintTimer = new Timer(fps, this);
 
 	public SnakeGUI() {
-	
+		
 		Rectangle screenDim = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 		
 		frame = new JFrame("Super Snake");
 		frame.setVisible(true);
 		frame.setSize(500, 500);
+		frame.setResizable(false);
 		frame.setLocation( (screenDim.width - frame.getWidth())/2, (screenDim.height - frame.getHeight())/2 );
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.getContentPane().setPreferredSize(new Dimension(500, 500));
+		frame.pack();
 		
 		renderPanel = new RenderPanel();
 		renderPanel.setBounds(0, 0, 500, 500);

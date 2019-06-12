@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.AbstractAction;
@@ -36,21 +38,27 @@ public class Game implements ActionListener {
 	
 	public static Snake snake = new Snake();
 	public static SnakeGUI window;
+	public static Menu menu;
 	
-	public final static int scale = 15;
+	public final static int scale = 20;
 	public static int score = 0;
 	public static int tick = 0;
 	
-	private static int fps = 100;
+	private static int fps = 150;
 	Timer moveTimer = new Timer(fps, this);
+	
+	public static List<HighScore> scores = new ArrayList<>();
+	
+	
 	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					window = new SnakeGUI();
-					Game myGame = new Game();
+					menu = new Menu();
+					//window = new SnakeGUI();
+					//Game myGame = new Game();
 	
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -73,16 +81,11 @@ public class Game implements ActionListener {
 		((JComponent) SnakeGUI.frame.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(rightArrow, "right");
 		((JComponent) SnakeGUI.frame.getContentPane()).getActionMap().put("right", MoveRight);
 		
-		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 20, SnakeGUI.renderPanel.getY() + 20) );
-		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 19, SnakeGUI.renderPanel.getY() + 20) );
-		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 18, SnakeGUI.renderPanel.getY() + 20) );
-		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 17, SnakeGUI.renderPanel.getY() + 20) );
-		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 17, SnakeGUI.renderPanel.getY() + 20) );
-		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 16, SnakeGUI.renderPanel.getY() + 20) );
-		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 15, SnakeGUI.renderPanel.getY() + 20) );
-		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 14, SnakeGUI.renderPanel.getY() + 20) );
-		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 13, SnakeGUI.renderPanel.getY() + 20) );
-		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 12, SnakeGUI.renderPanel.getY() + 20) );
+		
+		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 3, SnakeGUI.renderPanel.getY()) );
+		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 2, SnakeGUI.renderPanel.getY()) );
+		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 1, SnakeGUI.renderPanel.getY()) );
+		snake.snake.add( new Point(SnakeGUI.renderPanel.getX(), SnakeGUI.renderPanel.getY()) );
 		
 		moveTimer.start();
 	}
@@ -166,13 +169,21 @@ public class Game implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		tick++;
-		if(tick % 50 == 0) {
+		if(fruitPos == null) {
 			fruit = pickRandomFruit();
 			fruitPos = pickRandomPoint();
 		}
 		
-		System.out.println(direction);
-		//checkDeath();
+		if(checkDeath() ){
+			moveTimer.stop();
+			JOptionPane.showMessageDialog(null, "Oops. You Lost!");
+			scores.add(new HighScore("Krysh97", score));
+			snake.snake.clear();
+			
+			SnakeGUI.frame.setVisible(false);
+			Menu.frame.setVisible(true);
+		}
+		
 		if(checkFruitColl()) {
 			score++;
 			fruitPos = null;
@@ -180,6 +191,26 @@ public class Game implements ActionListener {
 			addNewElement();
 		}
 		move();
+	}
+
+	private boolean checkDeath() {
+		if(snake.getSnakeHead().x >= SnakeGUI.renderPanel.getWidth()/scale)
+			return true;
+		
+		if(snake.getSnakeHead().x < 0)
+			return true;
+		
+		if(snake.getSnakeHead().y >= SnakeGUI.renderPanel.getHeight()/scale)
+			return true;
+		
+		if(snake.getSnakeHead().y < 0)
+			return true;
+			
+		for(int i = 1; i < snake.snake.size(); i++) {
+			if(snake.getSnakeHead().equals(snake.snake.get(i)))
+				return true;
+		}
+		return false;
 	}
 
 	private void addNewElement() {
@@ -210,7 +241,20 @@ public class Game implements ActionListener {
 	
 	private Point pickRandomPoint() {
 		Random rnd = new Random();
-		return new Point(rnd.nextInt(SnakeGUI.renderPanel.getWidth()/scale), rnd.nextInt(SnakeGUI.renderPanel.getHeight()/scale));
+		Point randomPoint = new Point(-1, -1);
+		boolean flag = true;
+		while(flag) {
+			flag = false;
+			randomPoint = new Point(rnd.nextInt(SnakeGUI.renderPanel.getWidth()/scale), 
+									rnd.nextInt(SnakeGUI.renderPanel.getHeight()/scale));
+			for (Point snakeElement : snake.snake) {
+				if(snakeElement.equals(randomPoint)) {
+					flag = true;
+					break;
+				}
+			}
+		}
+		return randomPoint;
 	}
 	
 	private void move() {

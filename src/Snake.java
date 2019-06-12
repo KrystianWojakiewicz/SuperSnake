@@ -7,6 +7,7 @@ import java.util.List;
 
 
 
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -21,7 +22,11 @@ public class Snake {
 	public List<Point> snake = new ArrayList<>();
 	
 	public Point getSnakeHead() {
-		return snake.get(0);
+		try {
+			return snake.get(0);
+		} catch(IndexOutOfBoundsException e) { }
+		return new Point();
+		
 	}
 	
 	public Snake() {
