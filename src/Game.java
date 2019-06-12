@@ -181,6 +181,7 @@ public class Game implements ActionListener {
 			moveTimer.stop();
 			JOptionPane.showMessageDialog(null, "Oops. You Lost!");
 			scores.add(new HighScore("Krysh97", score));
+			score = 0;
 			snake.snake.clear();
 			
 			HighScoreFrame.scorelist.add("Krysh:     \t" + score);
