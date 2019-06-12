@@ -44,7 +44,7 @@ public class Game implements ActionListener {
 	public static int score = 0;
 	public static boolean isGameOver = false;
 	
-	public static int fps = 150;
+	public static int fps = 130;
 	Timer moveTimer;
 	
 	public static List<HighScore> scores = new ArrayList<>();

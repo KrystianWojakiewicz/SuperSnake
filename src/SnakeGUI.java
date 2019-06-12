@@ -24,7 +24,7 @@ public class SnakeGUI implements ActionListener{
 	public static RenderPanel renderPanel;
 	
 	public static Snake snake = new Snake();
-	public static int fps = 50;
+	public static int fps = 10;
 	public Timer repaintTimer;
 
 	public SnakeGUI() {
@@ -53,6 +53,7 @@ public class SnakeGUI implements ActionListener{
 		//scoreBox.setOpaque(true);
 		renderPanel.add(scoreBox);
 		
+		Game.isGameOver = false;
 		repaintTimer = new Timer(fps, this);
 		repaintTimer.start();
 	}

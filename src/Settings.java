@@ -15,7 +15,7 @@ import javax.swing.event.ChangeListener;
 
 public class Settings {
 	public static JFrame frame;
-	private final static int SNAKE_SLIDER_MAX = 100;
+	private final static int SNAKE_SLIDER_MAX = 200;
 	private final static int PAINT_SLIDER_MAX = 600;
 	
 	public Settings() {
