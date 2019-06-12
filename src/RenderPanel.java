@@ -10,6 +10,7 @@ public class RenderPanel extends JPanel{
 
 
 	final static Color board =  new Color(0x8CADAE);
+	final static Color green = new Color(0xBADA55);
 	final static Color red = new Color(0xE40059);
 	final static Color appleColor = new Color(0xA02837);
 	final static Color pearColor = new Color(0xBADA55);
@@ -22,10 +23,12 @@ public class RenderPanel extends JPanel{
 		g.fillRect(0, 0, 500, 500);
 		
 		for(Point snakeElement : Game.snake.snake) {
-			g.setColor(red);
+			g.setColor(green);
 			g.fillRect(snakeElement.x * Game.scale, snakeElement.y * Game.scale, Game.scale, Game.scale);
 		}
-		
+		g.setColor(red);
+		g.fillRect(Game.snake.getSnakeHead().x * Game.scale, Game.snake.getSnakeHead().y * Game.scale, 
+					Game.scale, Game.scale);
 		paintFruit(g);
 		
 		SnakeGUI.scoreBox.setText("Score: " + Game.score);

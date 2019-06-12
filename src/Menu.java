@@ -20,13 +20,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 
-public class Menu implements ActionListener{
+public class Menu {
 
 	public static JFrame frame;
 	
 	public static SnakeGUI snakeGUI;
 	public static RenderPanel gameBoard;
-	public static HighScorePanel highscore;
+	public static HighScoreFrame highscore;
 	
 	
 	public Menu() {
@@ -50,8 +50,12 @@ public class Menu implements ActionListener{
 		
 		
 		JButton newGameBtn = new JButton("New Game");
-		newGameBtn.setBounds(173, 109, 124, 42);
+		newGameBtn.setBounds(173, 60, 124, 42);
 		menu.add(newGameBtn);
+		
+		JButton settingsBtn = new JButton("Settings");
+		settingsBtn.setBounds(173, 109, 124, 42);
+		menu.add(settingsBtn);
 		
 		JButton highScoreBtn = new JButton("High Score");
 		highScoreBtn.setBounds(173, 164, 124, 42);
@@ -61,10 +65,6 @@ public class Menu implements ActionListener{
 		exitBtn.setBounds(173, 219, 124, 42);
 		menu.add(exitBtn);
 		
-		//gameBoard = new RenderPanel();
-		//frame.getContentPane().add(gameBoard, "Super Snake");
-		
-		highscore = new HighScorePanel();
 		
 		exitBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -78,11 +78,19 @@ public class Menu implements ActionListener{
 				frame.setVisible(false);
 			}
 		});
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		gameBoard.repaint();
 		
+		highScoreBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				highscore = new HighScoreFrame();
+				frame.setVisible(false);
+			}
+		});
+		
+		settingsBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Settings settings = new Settings();
+				frame.setVisible(false);
+			}
+		});
 	}
 }

@@ -42,10 +42,10 @@ public class Game implements ActionListener {
 	
 	public final static int scale = 20;
 	public static int score = 0;
-	public static int tick = 0;
+	public static boolean isGameOver = false;
 	
-	private static int fps = 150;
-	Timer moveTimer = new Timer(fps, this);
+	public static int fps = 150;
+	Timer moveTimer;
 	
 	public static List<HighScore> scores = new ArrayList<>();
 	
@@ -81,12 +81,14 @@ public class Game implements ActionListener {
 		((JComponent) SnakeGUI.frame.getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(rightArrow, "right");
 		((JComponent) SnakeGUI.frame.getContentPane()).getActionMap().put("right", MoveRight);
 		
+		isGameOver = false;
 		
 		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 3, SnakeGUI.renderPanel.getY()) );
 		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 2, SnakeGUI.renderPanel.getY()) );
 		snake.snake.add( new Point(SnakeGUI.renderPanel.getX() + 1, SnakeGUI.renderPanel.getY()) );
 		snake.snake.add( new Point(SnakeGUI.renderPanel.getX(), SnakeGUI.renderPanel.getY()) );
 		
+		moveTimer = new Timer(fps, this);
 		moveTimer.start();
 	}
 	
@@ -168,17 +170,20 @@ public class Game implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		tick++;
+
 		if(fruitPos == null) {
 			fruit = pickRandomFruit();
 			fruitPos = pickRandomPoint();
 		}
 		
 		if(checkDeath() ){
+			isGameOver = true;
 			moveTimer.stop();
 			JOptionPane.showMessageDialog(null, "Oops. You Lost!");
 			scores.add(new HighScore("Krysh97", score));
 			snake.snake.clear();
+			
+			HighScoreFrame.scorelist.add("Krysh:     \t" + score);
 			
 			SnakeGUI.frame.setVisible(false);
 			Menu.frame.setVisible(true);
